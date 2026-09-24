@@ -1,0 +1,818 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Dormir Sin Darle Vueltas a Todo</title>
+<meta name="description" content="Ebook + microaplicación + sistema práctico de 7 días para cerrar el día y dormir sin que tu mente siga dando vueltas. Pago único de US$27.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=Hanken+Grotesk:wght@400;500;600;700&display=swap">
+<style>
+/* =========================================================
+   PALETA — noche, petróleo, blanco cálido, niebla, ámbar CTA
+   Diseño de un solo tema (intencional): se ve igual para todos los visitantes.
+   ========================================================= */
+:root{
+  color-scheme: light;
+  --night:#0C1726;
+  --night-2:#12233A;
+  --petrol:#15424D;
+  --petrol-2:#1C5664;
+  --warm:#F8F6F2;
+  --mist:#EDF1F3;
+  --ink:#122031;
+  --muted:#566577;
+  --line:#DAE0E6;
+  --on-dark:#EEF2F5;
+  --on-dark-muted:#A7B5C3;
+  --on-dark-line:rgba(238,242,245,.14);
+  --amber:#F2A65A;
+  --amber-hi:#F7B878;
+  --amber-ink:#241305;
+  --serif:"Newsreader", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --sans:"Hanken Grotesk", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --gutter:clamp(16px, 5vw, 56px);
+  --maxw:1180px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{animation:none!important; transition:none!important} }
+body{
+  margin:0; background:var(--warm); color:var(--ink);
+  font-family:var(--sans); font-size:17px; line-height:1.6;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+}
+img{max-width:100%; display:block}
+a{color:inherit}
+.wrap{max-width:var(--maxw); margin-inline:auto; padding-inline:var(--gutter)}
+h1,h2,h3{font-family:var(--serif); font-weight:400; letter-spacing:-.015em; line-height:1.08; margin:0; text-wrap:balance}
+p{margin:0}
+.eyebrow{font-size:12.5px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:var(--petrol-2)}
+.dark .eyebrow{color:var(--amber)}
+.lead{font-size:clamp(17px,1.6vw,19.5px); color:var(--muted); max-width:58ch; text-wrap:pretty}
+.dark{background:var(--night); color:var(--on-dark)}
+.dark .lead{color:var(--on-dark-muted)}
+section{padding-block:clamp(72px, 10vw, 136px)}
+:focus-visible{outline:2px solid var(--amber); outline-offset:3px; border-radius:4px}
+
+/* ---------- CTA ---------- */
+.cta{
+  display:inline-flex; align-items:center; justify-content:center; gap:12px;
+  min-height:60px; padding:0 30px; border-radius:12px;
+  background:var(--amber); color:var(--amber-ink); text-decoration:none;
+  font-family:var(--sans); font-weight:700; font-size:15.5px; letter-spacing:.06em; text-transform:uppercase;
+  box-shadow:0 1px 0 rgba(255,255,255,.35) inset, 0 12px 30px -10px rgba(242,166,90,.55);
+  transition:background .2s, transform .2s, box-shadow .2s;
+}
+.cta:hover{background:var(--amber-hi); transform:translateY(-1px); box-shadow:0 1px 0 rgba(255,255,255,.35) inset, 0 16px 36px -10px rgba(242,166,90,.7)}
+.cta svg{width:18px; height:18px; flex:none}
+.cta-note{display:flex; flex-wrap:wrap; gap:6px 18px; font-size:13.5px; color:var(--muted)}
+.dark .cta-note{color:var(--on-dark-muted)}
+.cta-note span{display:inline-flex; align-items:center; gap:7px}
+.cta-note svg{width:14px; height:14px; opacity:.8}
+
+/* ---------- Precio + temporizador ---------- */
+.price{display:flex; align-items:baseline; flex-wrap:wrap; gap:6px 14px}
+.price .old{flex-basis:100%; font-size:15px; color:var(--on-dark-muted)}
+.price .old .was{font-size:12px; font-weight:600; letter-spacing:.12em; text-transform:uppercase}
+.price .old del{font-size:18px; text-decoration-thickness:1.5px; text-decoration-color:rgba(242,166,90,.8); margin-left:6px}
+.price .now{font-family:var(--serif); font-size:clamp(44px,5vw,56px); line-height:1; letter-spacing:-.02em}
+.price .now small{font-family:var(--sans); font-size:15px; font-weight:600; letter-spacing:.04em; margin-left:4px; vertical-align:.9em}
+.price .tag{font-size:13px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--amber)}
+.timer{display:flex; align-items:center; gap:12px; font-size:14px; color:var(--on-dark-muted)}
+.timer .clock{font-variant-numeric:tabular-nums; font-weight:700; font-size:17px; color:var(--on-dark); letter-spacing:.04em;
+  padding:6px 10px; border-radius:8px; background:rgba(242,166,90,.12); border:1px solid rgba(242,166,90,.35)}
+.ended-only{display:none}
+.promo-ended .promo-only{display:none!important}
+.promo-ended .ended-only{display:revert}
+
+/* ---------- Barra superior ---------- */
+.topbar{background:var(--night); color:var(--on-dark); border-bottom:1px solid var(--on-dark-line)}
+.topbar .wrap{display:flex; align-items:center; justify-content:space-between; gap:16px; min-height:64px}
+.brand{font-family:var(--serif); font-size:18px; letter-spacing:-.005em; white-space:nowrap}
+.brand sup{font-size:.55em; font-family:var(--sans); opacity:.7}
+.topbar .mini{display:flex; align-items:center; gap:14px; font-size:13.5px; color:var(--on-dark-muted)}
+.topbar .mini .clock{font-variant-numeric:tabular-nums; color:var(--amber); font-weight:700}
+
+/* ---------- HERO ---------- */
+.hero{position:relative; overflow:hidden; padding-block:clamp(40px,7vw,96px) clamp(64px,8vw,112px)}
+.hero::before{ /* luz cálida de lámpara, muy sutil */
+  content:""; position:absolute; inset:-20% -10% auto auto; width:70%; height:120%;
+  background:radial-gradient(closest-side, rgba(242,166,90,.16), rgba(242,166,90,0));
+  pointer-events:none;
+}
+.hero::after{
+  content:""; position:absolute; inset:auto 0 0 0; height:40%;
+  background:linear-gradient(to top, rgba(21,66,77,.45), transparent); pointer-events:none;
+}
+.hero-grid{position:relative; z-index:1; display:grid; grid-template-columns:1.02fr .98fr; gap:clamp(32px,5vw,72px); align-items:center}
+.hero h1{font-size:clamp(38px,5.4vw,70px); font-weight:300}
+.hero h1 em{font-style:italic; color:var(--amber-hi)}
+.hero .lead{margin-top:22px}
+.hero-copy{display:grid; gap:0}
+.offer-box{margin-top:36px; padding-top:28px; border-top:1px solid var(--on-dark-line); display:grid; gap:20px; max-width:520px}
+.offer-row{display:flex; align-items:flex-end; justify-content:space-between; flex-wrap:wrap; gap:16px}
+.hero .cta{width:100%}
+
+/* ---------- Mockups ---------- */
+.stage{position:relative; display:grid; place-items:center; min-height:560px}
+.stage .glow{position:absolute; width:78%; aspect-ratio:1; border-radius:50%;
+  background:radial-gradient(closest-side, rgba(28,86,100,.55), transparent); filter:blur(8px)}
+
+.phone{
+  --w:290px;
+  position:relative; width:var(--w); max-width:100%; aspect-ratio:9/19.3;
+  border-radius:calc(var(--w) * .16); padding:calc(var(--w) * .032);
+  background:linear-gradient(145deg,#2B3440,#0B0F15 55%,#20272F);
+  box-shadow:
+    0 0 0 1.5px #3A4450 inset,
+    0 50px 80px -30px rgba(0,0,0,.75),
+    0 25px 40px -20px rgba(0,0,0,.5);
+}
+.phone .screen{position:relative; height:100%; border-radius:calc(var(--w) * .13); overflow:hidden; background:#0E1A28; color:#E9EEF2}
+.phone .island{position:absolute; top:10px; left:50%; translate:-50% 0; width:32%; height:24px; border-radius:20px; background:#000; z-index:3}
+
+.book{
+  position:relative; width:230px; aspect-ratio:3/4.25;
+  transform:perspective(1400px) rotateY(-22deg) rotateX(3deg);
+  transform-style:preserve-3d;
+}
+.book .cover{
+  position:absolute; inset:0; border-radius:3px 6px 6px 3px; overflow:hidden;
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.35) 0, rgba(255,255,255,.08) 2.5%, rgba(0,0,0,0) 5%),
+    linear-gradient(165deg, #1B5160 0%, #123844 45%, #0C2530 100%);
+  box-shadow: 30px 40px 60px -20px rgba(0,0,0,.65), 8px 8px 20px -6px rgba(0,0,0,.4);
+  padding:12% 11% 10% 14%; display:flex; flex-direction:column; color:#F3EEE6;
+}
+.book .pages{position:absolute; top:1.5%; bottom:1.5%; right:-10px; width:12px;
+  background:repeating-linear-gradient(90deg,#EAE5DC 0 1px,#D8D2C6 1px 2px); transform:rotateY(90deg); transform-origin:left; border-radius:0 2px 2px 0}
+.cover .c-label{font-family:var(--sans); font-size:8.5px; letter-spacing:.24em; text-transform:uppercase; opacity:.7}
+.cover .c-title{font-family:var(--serif); font-weight:300; font-size:27px; line-height:1.02; margin-top:auto; letter-spacing:-.01em}
+.cover .c-title em{font-style:italic; color:var(--amber-hi)}
+.cover .c-door{height:2px; margin:18px 0 14px; width:62%;
+  background:linear-gradient(90deg, rgba(247,184,120,0), rgba(247,184,120,.95) 35%, rgba(247,184,120,.95) 65%, rgba(247,184,120,0));
+  box-shadow:0 0 14px 2px rgba(247,184,120,.45)}
+.cover .c-sub{font-family:var(--sans); font-size:9.5px; line-height:1.5; opacity:.75; letter-spacing:.02em}
+
+.hero .stage .book{position:absolute; left:2%; bottom:6%; z-index:1}
+.hero .stage .phone{position:relative; z-index:2; left:14%}
+.stage-caption{position:absolute; right:0; bottom:0; z-index:3; font-size:12.5px; color:var(--on-dark-muted); letter-spacing:.02em;
+  display:flex; gap:8px; align-items:center}
+.stage-caption b{color:var(--on-dark); font-weight:600}
+
+/* ---------- UI de la microapp (pantallas) ---------- */
+.app{position:absolute; inset:0; padding:52px 18px 18px; display:flex; flex-direction:column; gap:14px; font-family:var(--sans); font-size:12px;
+  background:radial-gradient(120% 60% at 50% 0%, #17324A 0%, #0E1A28 60%)}
+.app .status{position:absolute; top:14px; left:24px; right:22px; display:flex; justify-content:space-between; font-size:11.5px; font-weight:600; font-variant-numeric:tabular-nums}
+.app .status i{font-style:normal; letter-spacing:1px; opacity:.85}
+.app .hello{font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:#8EA3B6}
+.app h4{font-family:var(--serif); font-weight:400; font-size:23px; line-height:1.1; margin:2px 0 0; letter-spacing:-.01em}
+.app .prog{display:flex; gap:5px; margin-top:2px}
+.app .prog span{flex:1; height:3px; border-radius:2px; background:rgba(233,238,242,.14)}
+.app .prog span.on{background:var(--amber)}
+.app .steps{display:grid; gap:8px}
+.app .step{display:flex; align-items:center; gap:11px; padding:11px 12px; border-radius:12px; background:rgba(233,238,242,.05); border:1px solid rgba(233,238,242,.07)}
+.app .step .dot{width:22px; height:22px; border-radius:50%; flex:none; display:grid; place-items:center; border:1.5px solid rgba(233,238,242,.3); font-size:10px; font-weight:700; color:#8EA3B6}
+.app .step.done .dot{background:#2C6A74; border-color:#2C6A74; color:#E9EEF2}
+.app .step.now{background:rgba(242,166,90,.1); border-color:rgba(242,166,90,.35)}
+.app .step.now .dot{border-color:var(--amber); color:var(--amber)}
+.app .step b{display:block; font-weight:600; font-size:12.5px}
+.app .step small{color:#8EA3B6; font-size:10.5px}
+.app .step .min{margin-left:auto; color:#8EA3B6; font-size:10.5px; font-variant-numeric:tabular-nums}
+.app .btn{margin-top:auto; height:42px; border-radius:12px; background:var(--amber); color:var(--amber-ink); display:grid; place-items:center; font-weight:700; font-size:12.5px; letter-spacing:.02em}
+.app .note{padding:12px; border-radius:12px; background:rgba(233,238,242,.05); border:1px solid rgba(233,238,242,.07); display:grid; gap:9px}
+.app .note .row{display:flex; gap:9px; align-items:flex-start; line-height:1.35}
+.app .note .row::before{content:""; width:5px; height:5px; margin-top:6px; border-radius:50%; background:var(--amber); flex:none}
+.app .chip{display:inline-flex; align-items:center; gap:6px; font-size:10.5px; color:#9FD0C8; padding:5px 9px; border-radius:20px; background:rgba(44,106,116,.3); width:max-content}
+.app .field{padding:11px 12px; border-radius:12px; border:1px dashed rgba(233,238,242,.2); color:#8EA3B6}
+.app .caret{display:inline-block; width:1px; height:13px; background:var(--amber); vertical-align:-2px; animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.breath{flex:1; display:grid; place-items:center; position:relative}
+.breath .ring{width:170px; aspect-ratio:1; border-radius:50%; border:1px solid rgba(233,238,242,.14); display:grid; place-items:center}
+.breath .orb{width:62%; aspect-ratio:1; border-radius:50%;
+  background:radial-gradient(circle at 40% 35%, rgba(247,184,120,.55), rgba(242,166,90,.12) 70%);
+  box-shadow:0 0 50px rgba(242,166,90,.25); animation:breathe 10s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(.72)} 40%{transform:scale(1.12)} 50%{transform:scale(1.12)}}
+.breath .lbl{position:absolute; bottom:4px; text-align:center; color:#8EA3B6; font-size:11px; letter-spacing:.06em}
+.breath .lbl b{display:block; color:#E9EEF2; font-family:var(--serif); font-weight:400; font-size:19px; letter-spacing:0}
+
+/* ---------- Identificación ---------- */
+.ident-grid{display:grid; grid-template-columns:.9fr 1.1fr; gap:clamp(40px,6vw,96px); align-items:center}
+.photo{
+  position:relative; border-radius:18px; overflow:hidden; aspect-ratio:4/5; max-width:100%;
+  background:
+    var(--img, radial-gradient(38% 30% at 74% 36%, rgba(242,166,90,.42), rgba(242,166,90,0) 100%)),
+    linear-gradient(170deg, #1F3348 0%, #0F1D2C 55%, #0A141F 100%);
+  background-size:cover; background-position:center;
+}
+.photo::after{ /* grano fotográfico sutil */
+  content:""; position:absolute; inset:0; opacity:.18; mix-blend-mode:overlay; pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.photo .stamp{position:absolute; left:28px; bottom:26px; right:28px; z-index:1; color:#F1ECE4}
+.photo .stamp .t{font-family:var(--serif); font-weight:300; font-size:clamp(56px,7vw,84px); line-height:1; font-variant-numeric:tabular-nums; letter-spacing:-.02em}
+.photo .stamp p{margin-top:10px; font-size:15px; color:rgba(241,236,228,.78); max-width:30ch}
+.thoughts{list-style:none; padding:0; margin:36px 0 0; display:grid}
+.thoughts li{font-family:var(--serif); font-size:clamp(21px,2.2vw,27px); line-height:1.3; padding-block:18px; border-top:1px solid var(--line); color:var(--ink)}
+.thoughts li:last-child{border-bottom:1px solid var(--line)}
+.thoughts li span{color:var(--muted); font-style:italic}
+.ident .close{margin-top:32px; font-size:18px; max-width:52ch}
+.ident .close strong{font-weight:600}
+
+/* ---------- Método (3 fases, secuencia real) ---------- */
+.method{background:var(--mist)}
+.method-head{display:grid; grid-template-columns:1fr 1fr; gap:clamp(24px,5vw,80px); align-items:end}
+.method h2, .ident h2, .demo h2, .value h2, .faq h2{font-size:clamp(32px,4vw,52px)}
+.phases{margin-top:clamp(40px,6vw,72px); display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(24px,3vw,44px)}
+.phase{display:grid; gap:12px; align-content:start; padding-top:22px; border-top:1.5px solid var(--ink)}
+.phase .n{font-size:12.5px; font-weight:700; letter-spacing:.14em; color:var(--petrol-2); text-transform:uppercase; font-variant-numeric:tabular-nums}
+.phase h3{font-size:clamp(24px,2.4vw,30px)}
+.phase p{color:var(--muted); font-size:16px}
+
+/* ---------- Demostración ---------- */
+.demo{background:linear-gradient(180deg, var(--night) 0%, var(--night-2) 100%)}
+.demo-grid{display:grid; grid-template-columns:1fr auto; gap:clamp(40px,7vw,110px); align-items:center}
+.demo .phone{--w:320px}
+.tabs{margin-top:36px; display:grid; gap:2px; max-width:520px}
+.tab{all:unset; cursor:pointer; display:grid; grid-template-columns:auto 1fr; gap:4px 18px; padding:18px 20px; border-radius:14px; transition:background .2s}
+.tab:hover{background:rgba(238,242,245,.04)}
+.tab[aria-selected="true"]{background:rgba(238,242,245,.06); box-shadow:0 0 0 1px var(--on-dark-line) inset}
+.tab:focus-visible{outline:2px solid var(--amber); outline-offset:2px}
+.tab .k{grid-row:span 2; font-size:12.5px; font-weight:700; letter-spacing:.12em; color:var(--on-dark-muted); padding-top:5px; font-variant-numeric:tabular-nums}
+.tab[aria-selected="true"] .k{color:var(--amber)}
+.tab b{font-family:var(--serif); font-weight:400; font-size:23px; line-height:1.2}
+.tab span.d{color:var(--on-dark-muted); font-size:15.5px}
+.demo .hint{margin-top:18px; font-size:13.5px; color:var(--on-dark-muted); padding-left:20px}
+.app-screen[hidden]{display:none!important}
+
+.ebook-row{margin-top:clamp(72px,10vw,120px); padding-top:clamp(56px,7vw,88px); border-top:1px solid var(--on-dark-line);
+  display:grid; grid-template-columns:auto 1fr; gap:clamp(40px,7vw,110px); align-items:center}
+.ebook-row .book{width:260px; transform:perspective(1400px) rotateY(18deg) rotateX(2deg)}
+.ebook-row .book .pages{right:auto; left:-10px; transform-origin:right; transform:rotateY(-90deg)}
+.ebook-row h3{font-size:clamp(28px,3.2vw,40px)}
+.toc{margin:28px 0 0; padding:0; list-style:none; display:grid; grid-template-columns:1fr 1fr; gap:0 36px}
+.toc li{display:flex; gap:14px; padding-block:13px; border-top:1px solid var(--on-dark-line); font-size:15.5px}
+.toc li i{font-style:normal; color:var(--on-dark-muted); font-variant-numeric:tabular-nums; min-width:22px}
+
+.more-than{margin-top:clamp(56px,7vw,88px); text-align:center; font-family:var(--serif); font-weight:300; font-size:clamp(26px,3vw,38px); color:var(--on-dark); text-wrap:balance}
+.more-than em{color:var(--amber-hi)}
+
+/* ---------- Valor ---------- */
+.value{background:var(--warm)}
+.value-card{background:#fff; border-radius:24px; box-shadow:0 30px 70px -40px rgba(12,23,38,.35), 0 0 0 1px var(--line);
+  display:grid; grid-template-columns:1.15fr .85fr; overflow:hidden}
+.value-list{padding:clamp(28px,5vw,60px)}
+.value-list ul{list-style:none; margin:30px 0 0; padding:0; display:grid}
+.value-list li{display:grid; grid-template-columns:28px 1fr; gap:14px; padding-block:18px; border-top:1px solid var(--line)}
+.value-list li svg{width:20px; height:20px; margin-top:4px; color:var(--petrol-2)}
+.value-list li b{display:block; font-size:17px; font-weight:600}
+.value-list li span{color:var(--muted); font-size:15.5px}
+.value-offer{background:var(--night); color:var(--on-dark); padding:clamp(28px,5vw,56px); display:grid; gap:22px; align-content:center; position:relative; overflow:hidden}
+.value-offer::before{content:""; position:absolute; right:-30%; top:-30%; width:90%; aspect-ratio:1; background:radial-gradient(closest-side, rgba(242,166,90,.14), transparent); pointer-events:none}
+.value-offer > *{position:relative}
+.value-offer .cta{width:100%; padding:0 18px; letter-spacing:.04em; white-space:nowrap}
+.value-offer .once{font-size:15px; color:var(--on-dark-muted)}
+.guarantee{display:flex; gap:14px; align-items:flex-start; padding-top:20px; border-top:1px solid var(--on-dark-line); font-size:14.5px; color:var(--on-dark-muted)}
+.guarantee svg{width:26px; height:26px; flex:none; color:var(--amber)}
+.guarantee b{color:var(--on-dark); font-weight:600}
+
+/* ---------- FAQ ---------- */
+.faq{background:var(--warm); padding-top:0}
+.faq-grid{display:grid; grid-template-columns:.8fr 1.2fr; gap:clamp(32px,6vw,96px); align-items:start}
+details{border-top:1px solid var(--line)}
+details:last-child{border-bottom:1px solid var(--line)}
+summary{list-style:none; cursor:pointer; padding:22px 40px 22px 0; position:relative; font-weight:600; font-size:17.5px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:""; position:absolute; right:6px; top:50%; width:11px; height:11px; border-right:1.5px solid var(--ink); border-bottom:1.5px solid var(--ink); transform:translateY(-70%) rotate(45deg); transition:transform .2s}
+details[open] summary::after{transform:translateY(-25%) rotate(225deg)}
+details p{padding:0 0 24px; color:var(--muted); max-width:62ch}
+
+/* ---------- Cierre ---------- */
+.final{position:relative; overflow:hidden; text-align:center}
+.final::before{content:""; position:absolute; left:50%; bottom:-40%; translate:-50% 0; width:120%; height:90%;
+  background:radial-gradient(closest-side, rgba(242,166,90,.15), transparent); pointer-events:none}
+.final .wrap{position:relative; display:grid; justify-items:center; gap:22px}
+.final h2{font-size:clamp(36px,5vw,64px); font-weight:300; max-width:16ch}
+.final .price{justify-content:center}
+.final .cta{min-width:min(420px,100%)}
+.final .timer{justify-content:center}
+
+footer{background:var(--night); color:var(--on-dark-muted); font-size:13px; border-top:1px solid var(--on-dark-line)}
+footer .wrap{padding-block:36px; display:grid; gap:10px}
+footer p{max-width:90ch}
+
+/* ---------- Barra fija móvil ---------- */
+.sticky{position:fixed; left:0; right:0; bottom:0; z-index:50; background:rgba(12,23,38,.96); backdrop-filter:blur(10px);
+  border-top:1px solid var(--on-dark-line); color:var(--on-dark);
+  padding:10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+  display:none; align-items:center; gap:14px; transform:translateY(110%); transition:transform .3s ease}
+.sticky.show{transform:none}
+.sticky .s-price{display:grid; line-height:1.15}
+.sticky .s-price b{font-family:var(--serif); font-weight:400; font-size:24px}
+.sticky .s-price small{font-size:11.5px; color:var(--on-dark-muted); font-variant-numeric:tabular-nums}
+.sticky .cta{flex:1; min-height:50px; padding:0 14px; font-size:13.5px; letter-spacing:.04em}
+
+/* =========================================================
+   RESPONSIVE — móvil diseñado deliberadamente
+   ========================================================= */
+@media (max-width: 960px){
+  .hero-grid, .ident-grid, .method-head, .demo-grid, .ebook-row, .value-card, .faq-grid{grid-template-columns:1fr}
+  .phases{grid-template-columns:1fr; gap:0}
+  .phase{padding-block:22px 26px; border-top:1px solid var(--line)}
+  .phase:first-child{border-top:1.5px solid var(--ink)}
+  .demo-grid .stage{order:-1}
+  .ebook-row{justify-items:start}
+  .toc{grid-template-columns:1fr}
+  .ident .photo{aspect-ratio:16/11}
+}
+@media (max-width: 720px){
+  body{font-size:16.5px}
+  .topbar .mini .lbl{display:none}
+  .brand{font-size:16px}
+  .topbar .wrap{min-height:54px}
+
+  /* Hero móvil: titular → beneficio → producto → precio → temporizador → CTA */
+  .hero{padding-block:26px 48px}
+  .hero-grid{display:flex; flex-direction:column; gap:0}
+  .hero-copy{display:contents}
+  .hero .eyebrow{order:1; font-size:11.5px}
+  .hero h1{order:2; font-size:clamp(32px,9vw,40px); margin-top:10px}
+  .hero .lead{order:3; margin-top:12px; font-size:16px; line-height:1.5}
+  .d-only{display:none}
+  .hero .stage{order:4; min-height:0; height:250px; width:100%; margin-top:14px}
+  .hero .offer-box{order:5; margin-top:6px; padding-top:16px; gap:14px}
+  .hero .stage .phone{--w:126px; left:auto; right:6%; position:absolute; bottom:0}
+  .hero .stage .book{width:128px; left:10%; bottom:12px}
+  .hero .stage-caption{display:none}
+  .cover .c-title{font-size:18px}
+  .cover .c-label{font-size:6.5px}
+  .cover .c-sub{display:none}
+  .cover .c-door{margin:12px 0 0}
+  .hero .phone .app{padding:26px 8px 8px; gap:6px; font-size:6px}
+  .hero .app .step:nth-child(4){display:none}
+  .hero .app .step small{display:none}
+  .hero .phone .island{top:6px; height:13px}
+  .hero .phone .app .status{top:7px; left:14px; right:12px; font-size:6.5px}
+  .hero .app h4{font-size:12.5px}
+  .hero .app .hello{font-size:6px}
+  .hero .app .step{padding:6px; gap:6px; border-radius:7px}
+  .hero .app .step .dot{width:12px; height:12px; font-size:6px}
+  .hero .app .step b{font-size:7px}
+  .hero .app .step small, .hero .app .step .min{font-size:6px}
+  .hero .app .btn{height:24px; font-size:7px; border-radius:7px}
+  .hero .app .prog span{height:2px}
+  .price .now{font-size:42px}
+  .hero .price .old del{font-size:16px}
+  .hero .timer .clock{font-size:15px; padding:4px 8px}
+  .offer-row{align-items:center}
+
+  .hero .cta{font-size:14px; letter-spacing:.04em; padding:0 16px; min-height:56px}
+  .sticky{display:flex}
+  .demo .phone{--w:270px}
+  .tab{padding:14px 12px; gap:2px 14px}
+  .tab b{font-size:20px}
+  .ebook-row .book{width:200px}
+  .final .cta{min-width:0; width:100%}
+  footer{padding-bottom:80px}
+}
+</style>
+</head>
+<body>
+
+
+<!-- =========================================================
+     CONFIGURACIÓN (editar aquí)
+     1) Link de Hotmart (US$27) ya configurado en todos los botones.
+     3) En el <script> del final: pon el link de checkout del precio regular en
+        CONFIG.linkPrecioRegular (se usa cuando la promoción termina).
+     4) Fotos: en cada elemento .photo agrega style="--img:url('tu-foto.jpg')".
+     ========================================================= -->
+
+<header class="topbar">
+  <div class="wrap">
+    <div class="brand">Dormir Sin Darle Vueltas a Todo<sup>™</sup></div>
+    <div class="mini promo-only"><span class="lbl">Precio de lanzamiento termina en</span><span class="clock" data-clock>15:00</span></div>
+  </div>
+</header>
+
+<main>
+<!-- ============ HERO ============ -->
+<section class="hero dark" aria-labelledby="h1">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow">Ebook + microaplicación + sistema práctico de 7 días</p>
+      <h1 id="h1">Apagas la luz y tu mente <em>se enciende.</em></h1>
+      <p class="lead">Un método para cerrar el día antes de acostarte, y una microaplicación en tu teléfono que te guía paso a paso cada noche.<span class="d-only"> Para que llegues a la cama con la cabeza en silencio.</span></p>
+
+      <div class="offer-box">
+        <div class="offer-row">
+          <div class="price">
+            <span class="old promo-only"><span class="was">Precio regular</span> <del>US$49</del></span>
+            <span class="now"><span class="promo-only">US$27</span><span class="ended-only">US$49</span></span>
+            <span class="tag promo-only">Hoy · pago único</span>
+            <span class="tag ended-only">Pago único</span>
+          </div>
+          <div class="timer promo-only" aria-live="off"><span>Termina en</span><span class="clock" data-clock>15:00</span></div>
+        </div>
+        <p class="ended-only" style="font-size:14px;color:var(--on-dark-muted)">El precio de lanzamiento terminó. Puedes acceder al precio regular.</p>
+        <a class="cta" data-cta href="https://pay.hotmart.com/Y106341012L?off=cn1g9ouo">
+          <span class="promo-only">Quiero empezar esta noche</span><span class="ended-only">Obtener acceso</span>
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5"/></svg>
+        </a>
+        <div class="cta-note">
+          <span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="M5.5 7V5a2.5 2.5 0 015 0v2"/></svg>Pago seguro con Hotmart</span>
+          <span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5l3 3 7-7"/></svg>Acceso inmediato</span>
+          <span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 1.8l5 2v4c0 3-2.2 5.2-5 6.4C5.2 13 3 10.8 3 7.8v-4z"/></svg>Garantía de 7 días</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage" aria-label="El ebook y la microaplicación en un teléfono">
+      <div class="glow"></div>
+      <div class="book" aria-hidden="true">
+        <div class="pages"></div>
+        <div class="cover">
+          <span class="c-label">Ebook · Método nocturno</span>
+          <div class="c-title">Dormir Sin Darle Vueltas <em>a Todo</em></div>
+          <div class="c-door"></div>
+          <span class="c-sub">Una estructura para cerrar el día y apagar el ruido mental antes de dormir.</span>
+        </div>
+      </div>
+      <div class="phone" aria-hidden="true">
+        <div class="screen">
+          <div class="island"></div>
+          <div class="app">
+            <div class="status"><span>22:47</span><i>●●● ▮</i></div>
+            <div>
+              <div class="hello">Tu rutina de esta noche</div>
+              <h4>Cerrar el día</h4>
+            </div>
+            <div class="prog"><span class="on"></span><span class="on"></span><span></span><span></span></div>
+            <div class="steps">
+              <div class="step done"><span class="dot">✓</span><div><b>Apagar pantallas</b><small>Completado</small></div></div>
+              <div class="step done"><span class="dot">✓</span><div><b>Revisar el día</b><small>Completado</small></div></div>
+              <div class="step now"><span class="dot">3</span><div><b>Descarga mental</b><small>Escribe lo pendiente</small></div><span class="min">4 min</span></div>
+              <div class="step"><span class="dot">4</span><div><b>Respiración lenta</b><small>Bajar el ritmo</small></div><span class="min">5 min</span></div>
+            </div>
+            <div class="btn">Continuar</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROBLEMA / IDENTIFICACIÓN ============ -->
+<section class="ident" aria-labelledby="h-ident">
+  <div class="wrap ident-grid">
+    <!-- FOTO sugerida: adulto acostado de lado, habitación en penumbra, lámpara cálida encendida, mirada abierta. Agrega: style="--img:url('foto-noche.jpg')" -->
+    <div class="photo" role="img" aria-label="Habitación en penumbra de noche">
+      <div class="stamp">
+        <div class="t">23:48</div>
+        <p>Estás cansado. Tu cabeza, no.</p>
+      </div>
+    </div>
+    <div>
+      <p class="eyebrow">Si te suena familiar</p>
+      <h2 id="h-ident" style="margin-top:14px">El cuerpo ya está en la cama. La mente sigue en el día.</h2>
+      <ul class="thoughts">
+        <li>Repasas una conversación <span>que ya terminó hace horas.</span></li>
+        <li>Armas la lista de mañana <span>justo cuando deberías dormir.</span></li>
+        <li>Tomas el teléfono para distraerte <span>y terminas más despierto.</span></li>
+        <li>Miras la hora y calculas <span>cuánto te queda por dormir.</span></li>
+      </ul>
+      <p class="close">Le pasa a mucha gente que vive con la cabeza llena. Lo que suele faltar es un momento para <strong>cerrar el día</strong> antes de acostarse. Eso es lo que este método te da.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SOLUCIÓN / MÉTODO ============ -->
+<section class="method" aria-labelledby="h-method">
+  <div class="wrap">
+    <div class="method-head">
+      <div>
+        <p class="eyebrow">La estructura</p>
+        <h2 id="h-method" style="margin-top:14px">Tres pasos que puedes probar esta misma noche.</h2>
+      </div>
+      <p class="lead">No necesitas cambiar tu vida entera ni seguir veinte consejos sueltos. Necesitas una secuencia corta, siempre igual, que le indique a tu mente que el día terminó.</p>
+    </div>
+    <div class="phases">
+      <div class="phase">
+        <span class="n">Paso 1</span>
+        <h3>Cerrar el día</h3>
+        <p>Un corte claro con pantallas, trabajo y pendientes, con una pequeña revisión de lo que sí hiciste.</p>
+      </div>
+      <div class="phase">
+        <span class="n">Paso 2</span>
+        <h3>Descargar la mente</h3>
+        <p>Sacas de tu cabeza lo que te da vueltas y lo dejas por escrito, con un lugar para retomarlo mañana.</p>
+      </div>
+      <div class="phase">
+        <span class="n">Paso 3</span>
+        <h3>Bajar el ritmo</h3>
+        <p>Respiración guiada y lenta para que el cuerpo acompañe a la mente hacia el descanso.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DEMOSTRACIÓN ============ -->
+<section class="demo dark" aria-labelledby="h-demo">
+  <div class="wrap">
+    <div class="demo-grid">
+      <div>
+        <p class="eyebrow">La microaplicación</p>
+        <h2 id="h-demo" style="margin-top:14px">El método, guiado en tu teléfono cada noche.</h2>
+        <p class="lead" style="margin-top:18px">Leer un método es un paso. Aplicarlo a las 11 de la noche, cansado, es otro. La microapp te lleva de la mano para que solo tengas que seguir la pantalla.</p>
+
+        <div class="tabs" role="tablist" aria-label="Pantallas de la microaplicación">
+          <button class="tab" role="tab" id="t-rutina" aria-controls="s-rutina" aria-selected="true">
+            <span class="k">01</span><b>Rutina guiada</b><span class="d">Cada paso en orden, con su tiempo. Solo presionas continuar.</span>
+          </button>
+          <button class="tab" role="tab" id="t-descarga" aria-controls="s-descarga" aria-selected="false" tabindex="-1">
+            <span class="k">02</span><b>Descarga mental</b><span class="d">Escribe lo que te da vueltas y déjalo guardado para mañana.</span>
+          </button>
+          <button class="tab" role="tab" id="t-resp" aria-controls="s-resp" aria-selected="false" tabindex="-1">
+            <span class="k">03</span><b>Respiración lenta</b><span class="d">Una guía visual que marca el ritmo para inhalar y exhalar.</span>
+          </button>
+        </div>
+        <p class="hint">Toca cada opción para ver la pantalla.</p>
+      </div>
+
+      <div class="stage" style="min-height:0">
+        <div class="glow"></div>
+        <div class="phone">
+          <div class="screen">
+            <div class="island"></div>
+
+            <div class="app app-screen" id="s-rutina" role="tabpanel" aria-labelledby="t-rutina">
+              <div class="status"><span>22:47</span><i>●●● ▮</i></div>
+              <div><div class="hello">Tu rutina de esta noche</div><h4>Cerrar el día</h4></div>
+              <div class="prog"><span class="on"></span><span class="on"></span><span></span><span></span></div>
+              <div class="steps">
+                <div class="step done"><span class="dot">✓</span><div><b>Apagar pantallas</b><small>Completado</small></div></div>
+                <div class="step done"><span class="dot">✓</span><div><b>Revisar el día</b><small>Completado</small></div></div>
+                <div class="step now"><span class="dot">3</span><div><b>Descarga mental</b><small>Escribe lo pendiente</small></div><span class="min">4 min</span></div>
+                <div class="step"><span class="dot">4</span><div><b>Respiración lenta</b><small>Bajar el ritmo</small></div><span class="min">5 min</span></div>
+              </div>
+              <div class="btn">Continuar</div>
+            </div>
+
+            <div class="app app-screen" id="s-descarga" role="tabpanel" aria-labelledby="t-descarga" hidden>
+              <div class="status"><span>22:52</span><i>●●● ▮</i></div>
+              <div><div class="hello">Paso 3 de 4</div><h4>¿Qué te está dando vueltas?</h4></div>
+              <div class="note">
+                <div class="row">Responder el correo de la propuesta</div>
+                <div class="row">Llamar al banco por el cargo repetido</div>
+                <div class="row">Lo que dije en la reunión de hoy</div>
+              </div>
+              <div class="field">Escribe otra cosa<span class="caret"></span></div>
+              <span class="chip">✓ Guardado para mañana, 8:00</span>
+              <div class="btn">Ya está fuera de mi cabeza</div>
+            </div>
+
+            <div class="app app-screen" id="s-resp" role="tabpanel" aria-labelledby="t-resp" hidden>
+              <div class="status"><span>22:56</span><i>●●● ▮</i></div>
+              <div><div class="hello">Paso 4 de 4</div><h4>Bajar el ritmo</h4></div>
+              <div class="breath">
+                <div class="ring"><div class="orb"></div></div>
+                <div class="lbl"><b>Inhala… exhala</b>Sigue el círculo · 4:12 restantes</div>
+              </div>
+              <div class="btn" style="background:rgba(233,238,242,.08);color:#E9EEF2">Pausar</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ebook-row">
+      <div class="book" aria-hidden="true">
+        <div class="pages"></div>
+        <div class="cover">
+          <span class="c-label">Ebook · Método nocturno</span>
+          <div class="c-title">Dormir Sin Darle Vueltas <em>a Todo</em></div>
+          <div class="c-door"></div>
+          <span class="c-sub">Una estructura para cerrar el día y apagar el ruido mental antes de dormir.</span>
+        </div>
+      </div>
+      <div>
+        <p class="eyebrow">El ebook</p>
+        <h3 style="margin-top:14px">Entiende por qué tu mente se acelera de noche y cómo aplicar el método.</h3>
+        <!-- EDITAR: reemplaza estos capítulos por el índice real de tu ebook -->
+        <ol class="toc">
+          <li><i>01</i>Por qué la mente se activa al acostarte</li>
+          <li><i>02</i>El error de “intentar dormir”</li>
+          <li><i>03</i>Cómo cerrar el día</li>
+          <li><i>04</i>La descarga mental, paso a paso</li>
+          <li><i>05</i>Respirar para bajar el ritmo</li>
+          <li><i>06</i>Qué hacer si te despiertas de madrugada</li>
+        </ol>
+      </div>
+    </div>
+
+    <p class="more-than">No es solo un PDF que lees una vez. <em>Es una rutina que usas cada noche.</em></p>
+  </div>
+</section>
+
+<!-- ============ VALOR + OFERTA ============ -->
+<section class="value" id="oferta" aria-labelledby="h-value">
+  <div class="wrap">
+    <div class="value-card">
+      <div class="value-list">
+        <p class="eyebrow">Lo que recibes</p>
+        <h2 id="h-value" style="margin-top:14px">Todo lo que necesitas para empezar esta noche.</h2>
+        <ul>
+          <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10.5l4 4 8-9"/></svg><div><b>Ebook “Dormir Sin Darle Vueltas a Todo”</b><span>El método completo, explicado con claridad. Léelo en tu teléfono, tablet o computadora.</span></div></li>
+          <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10.5l4 4 8-9"/></svg><div><b>Microaplicación nocturna</b><span>Rutina guiada, descarga mental y respiración lenta en tu teléfono, lista para usar cada noche.</span></div></li>
+          <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10.5l4 4 8-9"/></svg><div><b>Sistema práctico de 7 días</b><span>Una guía noche a noche para instalar la rutina durante tu primera semana.</span></div></li>
+          <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10.5l4 4 8-9"/></svg><div><b>Acceso inmediato</b><span>Recibes el acceso en tu correo apenas se confirma el pago.</span></div></li>
+          <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10.5l4 4 8-9"/></svg><div><b>Sin suscripción</b><span>Pagas una sola vez. No hay cobros mensuales.</span></div></li>
+        </ul>
+      </div>
+      <div class="value-offer dark">
+        <p class="eyebrow"><span class="promo-only">Precio de lanzamiento</span><span class="ended-only">Precio regular</span></p>
+        <div class="price">
+          <span class="old promo-only"><span class="was">Precio regular</span> <del>US$49</del></span>
+          <span class="now"><span class="promo-only">US$27</span><span class="ended-only">US$49</span></span>
+          <span class="tag promo-only">Hoy · pago único</span>
+        </div>
+        <p class="once">Pago único. Ebook + microaplicación + sistema práctico de 7 días.</p>
+        <div class="timer promo-only"><span>Este precio termina en</span><span class="clock" data-clock>15:00</span></div>
+        <a class="cta" data-cta href="https://pay.hotmart.com/Y106341012L?off=cn1g9ouo">
+          <span class="promo-only">Obtener acceso por US$27</span><span class="ended-only">Obtener acceso</span>
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5"/></svg>
+        </a>
+        <div class="guarantee">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2.5l7.5 3v6c0 4.6-3.2 8.2-7.5 10-4.3-1.8-7.5-5.4-7.5-10v-6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>
+          <div><b>Garantía de 7 días.</b> Si no es para ti, pides el reembolso desde Hotmart dentro de ese plazo.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="faq" aria-labelledby="h-faq">
+  <div class="wrap faq-grid">
+    <div>
+      <p class="eyebrow">Antes de decidir</p>
+      <h2 id="h-faq" style="margin-top:14px">Preguntas frecuentes</h2>
+    </div>
+    <div>
+      <details open>
+        <summary>¿Cómo recibo el ebook y la microaplicación?</summary>
+        <p>Después del pago, Hotmart te envía un correo con tu acceso. Desde ahí descargas el ebook y abres la microaplicación en tu teléfono.</p>
+      </details>
+      <details>
+        <summary>¿Tengo que descargar algo de una tienda de aplicaciones?</summary>
+        <p>No. La microaplicación se abre desde el navegador de tu teléfono y puedes guardarla en tu pantalla de inicio para usarla cada noche.</p>
+      </details>
+      <details>
+        <summary>¿Es un pago mensual?</summary>
+        <p>No. Es un pago único de US$27 durante la promoción. No hay suscripción ni cargos adicionales.</p>
+      </details>
+      <details>
+        <summary>¿Y si no me funciona?</summary>
+        <p>Tienes 7 días de garantía. Si sientes que no es para ti, solicitas el reembolso desde Hotmart dentro de ese plazo.</p>
+      </details>
+      <details>
+        <summary>¿Esto reemplaza un tratamiento médico?</summary>
+        <p>No. Es una herramienta de hábitos y descanso. Si tienes insomnio persistente u otro problema de sueño, consulta con un profesional de la salud.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CIERRE ============ -->
+<section class="final dark" aria-labelledby="h-final">
+  <div class="wrap">
+    <p class="eyebrow">Esta noche</p>
+    <h2 id="h-final">Dale a tu mente un lugar donde terminar el día.</h2>
+    <div class="price">
+      <span class="old promo-only"><span class="was">Precio regular</span> <del>US$49</del></span>
+      <span class="now"><span class="promo-only">US$27</span><span class="ended-only">US$49</span></span>
+      <span class="tag"><span class="promo-only">Hoy · pago único</span><span class="ended-only">Pago único</span></span>
+    </div>
+    <div class="timer promo-only"><span>Precio de lanzamiento termina en</span><span class="clock" data-clock>15:00</span></div>
+    <a class="cta" data-cta href="https://pay.hotmart.com/Y106341012L?off=cn1g9ouo">
+      <span class="promo-only">Quiero empezar esta noche</span><span class="ended-only">Obtener acceso</span>
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5"/></svg>
+    </a>
+    <div class="cta-note" style="justify-content:center"><span>Ebook + microapp + sistema de 7 días</span><span>Pago seguro con Hotmart</span><span>Acceso inmediato</span><span>Garantía de 7 días</span></div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>© 2026 Dormir Sin Darle Vueltas a Todo™. Todos los derechos reservados.</p>
+    <p>Este producto no sustituye el diagnóstico ni el tratamiento de un profesional de la salud. Los resultados varían de persona a persona. Pago procesado por Hotmart.</p>
+  </div>
+</footer>
+
+<!-- Barra fija móvil -->
+<div class="sticky" id="sticky" aria-hidden="true">
+  <div class="s-price">
+    <b><span class="promo-only">US$27</span><span class="ended-only">US$49</span></b>
+    <small class="promo-only">Termina en <span data-clock>15:00</span></small>
+    <small class="ended-only">Pago único</small>
+  </div>
+  <a class="cta" data-cta href="https://pay.hotmart.com/Y106341012L?off=cn1g9ouo" tabindex="-1">
+    <span class="promo-only">Quiero empezar</span><span class="ended-only">Obtener acceso</span>
+  </a>
+</div>
+
+<script>
+/* =========================================================
+   CONFIGURACIÓN DE LA PROMOCIÓN
+   - 15 minutos por visitante, contados desde su PRIMERA visita.
+   - No se reinicia al recargar: el inicio se guarda en el navegador.
+   - Al llegar a 00:00 la promoción termina de verdad en esta página:
+     se oculta US$27 y todos los botones pasan al link de precio regular.
+   IMPORTANTE: para que la promoción sea real también en el checkout,
+   el link de US$27 debe ser una oferta/cupón temporal en Hotmart y
+   linkPrecioRegular debe cobrar el precio regular (US$49).
+   ========================================================= */
+const CONFIG = {
+  minutos: 15,
+  linkPrecioRegular: "https://pay.hotmart.com/Y106341012L?off=l0ausoad",
+  claveStorage: "dsdvt_promo_inicio_v1"
+};
+
+(function promo(){
+  const dur = CONFIG.minutos * 60 * 1000;
+  let start = null;
+  try { start = parseInt(localStorage.getItem(CONFIG.claveStorage), 10); } catch(e){}
+  if (!start || isNaN(start)) {
+    start = Date.now();
+    try { localStorage.setItem(CONFIG.claveStorage, String(start)); } catch(e){}
+  }
+  const end = start + dur;
+  const clocks = document.querySelectorAll("[data-clock]");
+  let timer;
+
+  function finish(){
+    document.body.classList.add("promo-ended");
+    if (/^https?:\/\//.test(CONFIG.linkPrecioRegular)) {
+      document.querySelectorAll("[data-cta]").forEach(a => { a.href = CONFIG.linkPrecioRegular; });
+    }
+    clearInterval(timer);
+  }
+  function tick(){
+    const left = Math.max(0, end - Date.now());
+    const m = String(Math.floor(left / 60000)).padStart(2, "0");
+    const s = String(Math.floor((left % 60000) / 1000)).padStart(2, "0");
+    clocks.forEach(c => { c.textContent = m + ":" + s; });
+    if (left <= 0) finish();
+  }
+  tick();
+  timer = setInterval(tick, 1000);
+})();
+
+/* Pestañas de la microapp */
+(function tabs(){
+  const tabs = [...document.querySelectorAll('.tab')];
+  function select(t){
+    tabs.forEach(x => {
+      const on = x === t;
+      x.setAttribute('aria-selected', on);
+      x.tabIndex = on ? 0 : -1;
+      document.getElementById(x.getAttribute('aria-controls')).hidden = !on;
+    });
+  }
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => select(t));
+    t.addEventListener('keydown', e => {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+        e.preventDefault();
+        const d = (e.key === 'ArrowDown' || e.key === 'ArrowRight') ? 1 : -1;
+        const n = tabs[(i + d + tabs.length) % tabs.length]; n.focus(); select(n);
+      }
+    });
+  });
+})();
+
+/* Barra fija en móvil: aparece al pasar el bloque de precio del hero y se oculta en la oferta final */
+(function sticky(){
+  const bar = document.getElementById('sticky');
+  const heroOffer = document.querySelector('.hero .offer-box');
+  const hide = [...document.querySelectorAll('.value-offer, .final')];
+  if (!('IntersectionObserver' in window) || !bar || !heroOffer) return;
+  const seen = new Map();
+  const update = () => {
+    const heroVisible = seen.get(heroOffer) || heroOffer.getBoundingClientRect().top > 0;
+    const offerVisible = hide.some(el => seen.get(el));
+    bar.classList.toggle('show', !heroVisible && !offerVisible);
+  };
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => seen.set(e.target, e.isIntersecting));
+    update();
+  });
+  [heroOffer, ...hide].forEach(el => io.observe(el));
+})();
+</script>
+
+</body>
+</html>
